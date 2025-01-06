@@ -29,6 +29,11 @@
     "sourceMap": false,
     "strict": true,
     "target": "es2022",
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "baseUrl": ".",
+    "paths": {
+      "@ss/auth": ["libs/auth/src/index.ts"],
+      "inventory/Module": ["apps/inventory/src/remote-entry.ts"]
+    }
   }
 }

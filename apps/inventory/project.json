@@ -1,0 +1,74 @@
+{
+  "name": "inventory",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/inventory/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/apps/inventory",
+        "index": "apps/inventory/src/index.html",
+        "main": "apps/inventory/src/main.ts",
+        "tsConfig": "apps/inventory/tsconfig.app.json",
+        "rspackConfig": "apps/inventory/rspack.config.ts",
+        "assets": [
+          "apps/inventory/src/favicon.ico",
+          "apps/inventory/src/assets"
+        ]
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false,
+          "rspackConfig": "apps/inventory/rspack.config.prod.ts"
+        }
+      },
+      "dependsOn": ["^build", "typecheck"]
+    },
+    "serve": {
+      "executor": "@nx/rspack:module-federation-dev-server",
+      "options": {
+        "buildTarget": "inventory:build:development",
+        "port": 4201
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "buildTarget": "inventory:build:production"
+        }
+      },
+      "dependsOn": ["typecheck"]
+    },
+    "serve-static": {
+      "executor": "@nx/rspack:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "inventory:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "inventory:serve:development"
+        },
+        "production": {
+          "serveTarget": "inventory:serve:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/test-output/jest/coverage"],
+      "options": {
+        "jestConfig": "apps/inventory/jest.config.ts"
+      }
+    }
+  }
+}
