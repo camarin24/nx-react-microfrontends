@@ -27,10 +27,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       try {
-        await instance.init({ onLoad: "login-required" });
+        await instance.init({
+          onLoad: "login-required",
+          checkLoginIframe: false,
+        });
         setKeycloakInstance(instance);
         if (instance.authenticated) {
-          setUser(instance.tokenParsed?.family_name || "no name");
+          setUser(`${instance.tokenParsed?.name}`);
         }
       } catch (e) {
         console.error(e);
