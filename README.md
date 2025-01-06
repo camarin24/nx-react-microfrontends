@@ -1,5 +1,3 @@
-Here's a simple README file based on the provided project structure to guide users on how to set up and run the project:
-
 ---
 
 # React Monorepo with Nx and Module Federation
